@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
-import Image from 'next/image';
-import Layout from '../../components/Layout';
 import NextLink from 'next/link';
+import Image from 'next/image';
 import {
-  Button,
-  Card,
   Grid,
   Link,
   List,
   ListItem,
   Typography,
+  Card,
+  Button,
 } from '@material-ui/core';
+import Layout from '../../components/Layout';
 import useStyles from '../../utils/styles';
-import db from '../../utils/db';
 import Product from '../../models/Product';
+import db from '../../utils/db';
 import axios from 'axios';
 import { Store } from '../../utils/Store';
 import { useRouter } from 'next/router';
@@ -27,15 +27,15 @@ export default function ProductScreen(props) {
     return <div>Product Not Found</div>;
   }
   const addToCartHandler = async () => {
-    const existItem = state.cart.cartItems.find(x=>x._id === product._id)
-    const quantity =  existItem? existItem.quantity + 1 : 1;
+    const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
-    if (data.CountInStock < quantity) {
+    if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
-    router.push('/cart');    
+    router.push('/cart');
   };
 
   return (
@@ -43,7 +43,7 @@ export default function ProductScreen(props) {
       <div className={classes.section}>
         <NextLink href="/" passHref>
           <Link>
-            <Typography>Back to products</Typography>
+            <Typography>back to products</Typography>
           </Link>
         </NextLink>
       </div>
@@ -72,11 +72,11 @@ export default function ProductScreen(props) {
             </ListItem>
             <ListItem>
               <Typography>
-                rating: {product.rating} stars ({product.numReviews} reviews)
+                Rating: {product.rating} stars ({product.numReviews} reviews)
               </Typography>
             </ListItem>
             <ListItem>
-              <Typography>Description:{product.description}</Typography>
+              <Typography> Description: {product.description}</Typography>
             </ListItem>
           </List>
         </Grid>
@@ -89,7 +89,7 @@ export default function ProductScreen(props) {
                     <Typography>Price</Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>$ {product.price}</Typography>
+                    <Typography>${product.price}</Typography>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -100,7 +100,7 @@ export default function ProductScreen(props) {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography>
-                      {product.CountInStock > 0 ? 'In stock' : 'Unavaible'}
+                      {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -112,7 +112,7 @@ export default function ProductScreen(props) {
                   color="primary"
                   onClick={addToCartHandler}
                 >
-                  add to cart
+                  Add to cart
                 </Button>
               </ListItem>
             </List>

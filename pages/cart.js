@@ -22,24 +22,27 @@ import {
   ListItem,
 } from '@material-ui/core';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 function CartScreen() {
+  const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
-
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
-    if (data.CountInStock < quantity) {
+    if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
   };
-
   const removeItemHandler = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+  const checkoutHandler = () => {
+    router.push('/shipping');
   };
   return (
     <Layout title="Shopping Cart">
@@ -82,6 +85,7 @@ function CartScreen() {
                           </Link>
                         </NextLink>
                       </TableCell>
+
                       <TableCell>
                         <NextLink href={`/product/${item.slug}`} passHref>
                           <Link>
@@ -96,14 +100,14 @@ function CartScreen() {
                             updateCartHandler(item, e.target.value)
                           }
                         >
-                          {[...Array(item.CountInStock).keys()].map((x) => (
+                          {[...Array(item.countInStock).keys()].map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
                               {x + 1}
                             </MenuItem>
                           ))}
                         </Select>
                       </TableCell>
-                      <TableCell align="right">R$ {item.price}</TableCell>
+                      <TableCell align="right">${item.price}</TableCell>
                       <TableCell align="right">
                         <Button
                           variant="contained"
@@ -125,13 +129,18 @@ function CartScreen() {
                 <ListItem>
                   <Typography variant="h2">
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
-                    items) : R$
+                    items) : $
                     {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                   </Typography>
                 </ListItem>
                 <ListItem>
-                  <Button variant="contained" color="primary" fullWidth>
-                    Checkout
+                  <Button
+                    onClick={checkoutHandler}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Check Out
                   </Button>
                 </ListItem>
               </List>

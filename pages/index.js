@@ -1,17 +1,16 @@
 import {
-  Button,
+  Grid,
   Card,
   CardActionArea,
-  CardActions,
-  CardContent,
   CardMedia,
-  Grid,
+  CardContent,
   Typography,
+  CardActions,
+  Button,
 } from '@material-ui/core';
-import Layout from '../components/Layout';
-//import data from '../utils/data'
-import db from '../utils/db';
 import NextLink from 'next/link';
+import Layout from '../components/Layout';
+import db from '../utils/db';
 import Product from '../models/Product';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -23,15 +22,15 @@ export default function Home(props) {
   const { state, dispatch } = useContext(Store);
   const { products } = props;
   const addToCartHandler = async (product) => {
-    const existItem = state.cart.cartItems.find(x=>x._id === product._id)
-    const quantity =  existItem? existItem.quantity + 1 : 1;
+    const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
-    if (data.CountInStock < quantity) {
+    if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
-    router.push('/cart');    
+    router.push('/cart');
   };
   return (
     <Layout>
@@ -49,14 +48,18 @@ export default function Home(props) {
                       title={product.name}
                     ></CardMedia>
                     <CardContent>
-                      <Typography>{product.name} </Typography>
+                      <Typography>{product.name}</Typography>
                     </CardContent>
                   </CardActionArea>
                 </NextLink>
                 <CardActions>
-                  <Typography>R$ {product.price}</Typography>
-                  <Button size="small" color="primary" onClick={() => addToCartHandler(product)}>
-                    Add to Cart
+                  <Typography>${product.price}</Typography>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => addToCartHandler(product)}
+                  >
+                    Add to cart
                   </Button>
                 </CardActions>
               </Card>
@@ -78,5 +81,3 @@ export async function getServerSideProps() {
     },
   };
 }
-
-
