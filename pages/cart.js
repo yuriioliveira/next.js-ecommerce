@@ -32,7 +32,7 @@ function CartScreen() {
   } = state;
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
-    if (data.countInStock < quantity) {
+    if (data.CountInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
@@ -100,7 +100,7 @@ function CartScreen() {
                             updateCartHandler(item, e.target.value)
                           }
                         >
-                          {[...Array(item.countInStock).keys()].map((x) => (
+                          {[...Array(item.CountInStock).keys()].map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
                               {x + 1}
                             </MenuItem>

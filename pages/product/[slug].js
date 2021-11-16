@@ -30,7 +30,7 @@ export default function ProductScreen(props) {
     const existItem = state.cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
-    if (data.countInStock < quantity) {
+    if (data.CountInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
@@ -100,7 +100,7 @@ export default function ProductScreen(props) {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography>
-                      {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
+                      {product.CountInStock > 0 ? 'In stock' : 'Unavailable'}
                     </Typography>
                   </Grid>
                 </Grid>
