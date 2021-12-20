@@ -12,7 +12,7 @@ import { Store } from '../utils/Store';
 import useStyles from '../utils/styles';
 import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
-import CheckoutWizard from '../components/CheckoutWizard.js';
+import CheckoutWizard from '../components/checkoutWizard.js';
 
 export default function Shipping() {
   const {
