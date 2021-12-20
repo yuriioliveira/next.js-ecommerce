@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     marginBottom: 10,
   },
   form: {
+    width: '100%',
     maxWidth: 800,
     margin: '0 auto',
   },
@@ -39,6 +40,9 @@ const useStyles = makeStyles({
   },
   error: {
     color: '#f04040',
+  },
+  fullWidth: {
+    width: '100%',
   },
 });
 export default useStyles;
