@@ -44,5 +44,17 @@ const useStyles = makeStyles({
   fullWidth: {
     width: '100%',
   },
+  precoDe: {
+    textDecoration: 'line-through',
+    fontSize: '1em',
+  },
+  areaPreco: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  precoPor: {
+    fontWeight: 'bold',
+  },
 });
 export default useStyles;
